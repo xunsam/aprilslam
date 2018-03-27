@@ -12,11 +12,17 @@ int Mapper::pose_cnt = 0;
 Mapper::Mapper(double relinearize_thresh, int relinearize_skip)
     : init_(false),
       params_(ISAM2GaussNewtonParams(), relinearize_thresh, relinearize_skip),
-      isam2_(params_),
-      tag_noise_(noiseModel::Diagonal::Sigmas(
-          (Vector(6) << Vector3::Constant(0.20), Vector3::Constant(0.1)))),
-      small_noise_(noiseModel::Diagonal::Sigmas(
-          (Vector(6) << Vector3::Constant(0.10), Vector3::Constant(0.05)))) {}
+      isam2_(params_) {
+
+  Vector noise(6);
+  noise<< Vector3::Constant(0.20), Vector3::Constant(0.1);
+  tag_noise_ = gtsam::noiseModel::Diagonal::shared_ptr(
+        noiseModel::Diagonal::Sigmas(noise));
+  noise << Vector3::Constant(0.10), Vector3::Constant(0.05);
+  small_noise_ = gtsam::noiseModel::Diagonal::shared_ptr(
+        noiseModel::Diagonal::Sigmas(noise));
+
+}
 
 void Mapper::AddPose(const geometry_msgs::Pose &pose) {
   pose_cnt++;
