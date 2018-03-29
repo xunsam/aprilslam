@@ -20,7 +20,7 @@ DetectorNode::DetectorNode(const ros::NodeHandle &nh,
       cam_calibrated_(true),
       it_(nh),
       sub_camera_(
-          it_.subscribeCamera("image_rect", 1, &DetectorNode::CameraCb, this)),
+          it_.subscribeCamera("/hik_camera/camera1/image", 1, &DetectorNode::CameraCb, this)),
       pub_tags_(nh_.advertise<aprilslam::Apriltags>("apriltags", 1)),
       pub_detections_(nh_.advertise<sensor_msgs::Image>("detections", 1)),
       tag_detector_(AprilTags::tagCodes36h11),
@@ -46,6 +46,8 @@ void DetectorNode::ConnectCb() {
 
 void DetectorNode::CameraCb(const sensor_msgs::ImageConstPtr &image_msg,
                             const sensor_msgs::CameraInfoConstPtr &cinfo_msg) {
+
+  ROS_INFO("camera cb");
   // Show only the detection if camera is uncalibrated
   if (cinfo_msg->K[0] == 0.0 || cinfo_msg->height == 0) {
     ROS_ERROR_THROTTLE(1, "%s: %s", nh_.getNamespace().c_str(),

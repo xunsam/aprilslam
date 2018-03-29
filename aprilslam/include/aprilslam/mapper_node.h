@@ -21,7 +21,7 @@ class MapperNode {
   MapperNode(const ros::NodeHandle& nh, const std::string& frame_id)
       : nh_(nh),
         sub_tags_(nh_.subscribe("apriltags", 1, &MapperNode::TagsCb, this)),
-        sub_cinfo_(nh_.subscribe("camera_info", 1, &MapperNode::CinfoCb, this)),
+        sub_cinfo_(nh_.subscribe("/hik_camera/camera1/camera_info", 1, &MapperNode::CinfoCb, this)),
         frame_id_(frame_id),
         mapper_(0.04, 1),
         tag_viz_(nh, "apriltags_map") {

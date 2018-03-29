@@ -21,7 +21,8 @@ Mapper::Mapper(double relinearize_thresh, int relinearize_skip)
   noise << Vector3::Constant(0.10), Vector3::Constant(0.05);
   small_noise_ = gtsam::noiseModel::Diagonal::shared_ptr(
         noiseModel::Diagonal::Sigmas(noise));
-
+  tag_noise_->print("tag_noise") ;
+  small_noise_->print("small_noise") ;
 }
 
 void Mapper::AddPose(const geometry_msgs::Pose &pose) {
