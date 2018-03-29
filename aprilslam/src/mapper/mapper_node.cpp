@@ -20,6 +20,8 @@ void MapperNode::TagsCb(const aprilslam::ApriltagsConstPtr& tags_c_msg) {
     ROS_WARN_THROTTLE(1, "No good tags detected.");
     return;
   }
+
+  std::cout << "good tag size " << tags_c_good.size() << "\n";
   // Initialize map by adding the first tag that is not on the edge of the image
   if (!map_.init()) {
     map_.AddFirstTag(tags_c_good.front());
@@ -32,6 +34,13 @@ void MapperNode::TagsCb(const aprilslam::ApriltagsConstPtr& tags_c_msg) {
     ROS_WARN_THROTTLE(1, "No 2D-3D correspondence.");
     return;
   }
+
+  std::cout << "camera position"
+            << pose.position.x << " "
+            << pose.position.y << " "
+            << pose.position.z << "\n";
+
+
   // Now that with the initial pose calculated, we can do some mapping
   mapper_.AddPose(pose);
   mapper_.AddFactors(tags_c_good);

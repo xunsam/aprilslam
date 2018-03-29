@@ -3,7 +3,7 @@
     <!--Detector Node-->
     <include file="$(find aprilslam)/launch/detector.launch">
         <arg name="camera" value="/stereo/cam0"/>
-	<arg name="size" value="0.16"/>
+	<arg name="size" value="0.162"/>
     </include>
 
     <include file="$(find aprilslam)/launch/mapper.launch">
